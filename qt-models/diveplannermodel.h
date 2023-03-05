@@ -104,6 +104,7 @@ slots:
 	void setAscratestopsDisplay(int rate);
 	void setAscratelast6mDisplay(int rate);
 	void setDescrateDisplay(int rate);
+	void addReverseProfile();
 
 signals:
 	void planCreated();
@@ -131,6 +132,7 @@ private:
 	void computeVariations(struct diveplan *diveplan, const struct deco_state *ds);
 	void computeVariationsFreeDeco(struct diveplan *diveplan, struct deco_state *ds);
 	int analyzeVariations(struct decostop *min, struct decostop *mid, struct decostop *max, const char *unit);
+
 	struct dive *d;
 	CylindersModel cylinders;
 	Mode mode;
