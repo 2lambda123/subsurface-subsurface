@@ -43,6 +43,9 @@ DivePlannerWidget::DivePlannerWidget(QWidget *parent) : QWidget(parent, QFlag(0)
 	ui.waterType->setItemData(2, EN13319_SALINITY);
 	waterTypeUpdateTexts();
 
+	ui.tableWidget->showMirrorButton();
+	connect(ui.tableWidget->mirrorButton(), &QPushButton::clicked, plannerModel, &DivePlannerPointsModel::mirror_clicked);
+
 	QTableView *view = ui.cylinderTableWidget->view();
 	view->setColumnHidden(CylindersModel::START, true);
 	view->setColumnHidden(CylindersModel::END, true);

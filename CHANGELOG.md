@@ -1,4 +1,4 @@
-planner: allow mirroring of profile with Ctrl-M
+planner: allow mirroring of profile with Ctrl-M or button
 desktop: fix bug when printing a dive plan with multiple segments
 desktop: fix bug in bailout gas selection for CCR dives
 desktop: fix crash on cylinder update of multiple dives
