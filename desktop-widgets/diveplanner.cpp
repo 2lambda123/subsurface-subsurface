@@ -43,6 +43,9 @@ DivePlannerWidget::DivePlannerWidget(QWidget *parent) : QWidget(parent, QFlag(0)
 	ui.waterType->setItemData(2, EN13319_SALINITY);
 	waterTypeUpdateTexts();
 
+	ui.tableWidget->showMirrorButton();
+	connect(ui.tableWidget->mirrorButton(), &QPushButton::clicked, plannerModel, &DivePlannerPointsModel::mirror_clicked);
+
 	QTableView *view = ui.cylinderTableWidget->view();
 	view->setColumnHidden(CylindersModel::START, true);
 	view->setColumnHidden(CylindersModel::END, true);
@@ -77,6 +80,9 @@ DivePlannerWidget::DivePlannerWidget(QWidget *parent) : QWidget(parent, QFlag(0)
 	connect(ui.buttonBox, &QDialogButtonBox::rejected, plannerModel, &DivePlannerPointsModel::cancelPlan);
 	QShortcut *closeKey = new QShortcut(QKeySequence(Qt::Key_Escape), this);
 	connect(closeKey, &QShortcut::activated, plannerModel, &DivePlannerPointsModel::cancelPlan);
+
+	QShortcut *mirrorProfileShortcut = new QShortcut(QKeySequence(Qt::Key_M + Qt::CTRL), this);
+	connect(mirrorProfileShortcut, &QShortcut::activated, plannerModel, &DivePlannerPointsModel::addReverseProfile);
 
 	// This makes shure the spinbox gets a setMinimum(0) on it so we can't have negative time or depth.
 	// Limit segments to a depth of 1000 m/3300 ft and a duration of 100 h. Setting the limit for

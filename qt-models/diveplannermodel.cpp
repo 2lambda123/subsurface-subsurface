@@ -47,7 +47,6 @@ void DivePlannerPointsModel::removeSelectedPoints(const std::vector<int> &rows)
 {
 	removePoints(rows);
 
-	updateDiveProfile();
 	emitDataChanged();
 	cylinders.updateTrashIcon();
 }
@@ -179,7 +178,6 @@ void DivePlannerPointsModel::loadFromDive(dive *dIn)
 	DiveTypeSelectionModel::instance()->repopulate();
 	preserved_until = d->duration;
 
-	updateDiveProfile();
 	emitDataChanged();
 }
 
@@ -757,6 +755,34 @@ void DivePlannerPointsModel::addStop(int milimeters, int seconds)
 	updateDiveProfile();
 }
 
+void DivePlannerPointsModel::addReverseProfile(){
+	if (divepoints.size() <= 1)
+		return;
+
+	int runtime = divepoints.back().time;
+
+	beginInsertRows(QModelIndex(), divepoints.size(), 2 * divepoints.size() - (prefs.drop_stone_mode ? 1 : 2));
+	for (int i = divepoints.count() - 2; i >= 0; --i) {
+		divepoints << divepoints[i];
+		runtime += divepoints[i+1].time - divepoints[i].time;
+		divepoints.back().time = runtime;
+	}
+
+	if (prefs.drop_stone_mode) {
+		divepoints << divepoints[0];
+		divepoints.back().time = runtime + divepoints[0].time - divepoints[0].depth.mm / prefs.descrate;
+	}
+
+	endInsertRows();
+
+	emitDataChanged();
+}
+
+void DivePlannerPointsModel::mirror_clicked()
+{
+	addReverseProfile();
+}
+
 // cylinderid_in == -1 means same gas as before.
 // divemode == UNDEF_COMP_TYPE means determine from previous point.
 int DivePlannerPointsModel::addStop(int milimeters, int seconds, int cylinderid_in, int ccpoint, bool entered, enum divemode_t divemode)
@@ -921,7 +947,6 @@ void DivePlannerPointsModel::removeControlPressed(const QModelIndex &index)
 	if (divepoints[0].cylinderid != old_first_cylid)
 		cylinders.moveAtFirst(divepoints[0].cylinderid);
 
-	updateDiveProfile();
 	emitDataChanged();
 }
 
@@ -958,7 +983,6 @@ void DivePlannerPointsModel::remove(const QModelIndex &index)
 	if (divepoints[0].cylinderid != old_first_cylid)
 		cylinders.moveAtFirst(divepoints[0].cylinderid);
 
-	updateDiveProfile();
 	emitDataChanged();
 }
 
