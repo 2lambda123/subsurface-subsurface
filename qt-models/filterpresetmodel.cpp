@@ -7,9 +7,9 @@
 #include "core/qthelper.h"
 #include "core/subsurface-qt/divelistnotifier.h"
 
-FilterPresetModel::FilterPresetModel()
+FilterPresetModel::FilterPresetModel() :
+	CleanerTableModel(QStringList { QString(), tr("Name") })
 {
-	setHeaderDataStrings(QStringList{ "", tr("Name") });
 	connect(&diveListNotifier, &DiveListNotifier::dataReset, this, &FilterPresetModel::reset);
 	connect(&diveListNotifier, &DiveListNotifier::filterPresetAdded, this, &FilterPresetModel::filterPresetAdded);
 	connect(&diveListNotifier, &DiveListNotifier::filterPresetRemoved, this, &FilterPresetModel::filterPresetRemoved);

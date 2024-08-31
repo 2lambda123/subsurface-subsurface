@@ -20,7 +20,8 @@ const QPixmap &editIcon()
 	return edit;
 }
 
-CleanerTableModel::CleanerTableModel(QObject *parent) : QAbstractTableModel(parent)
+CleanerTableModel::CleanerTableModel(QStringList headers, QObject *parent) : QAbstractTableModel(parent),
+	headers(headers)
 {
 }
 
@@ -41,9 +42,4 @@ QVariant CleanerTableModel::headerData(int section, Qt::Orientation orientation,
 		return headers.at(section);
 	}
 	return QVariant();
-}
-
-void CleanerTableModel::setHeaderDataStrings(const QStringList &newHeaders)
-{
-	headers = newHeaders;
 }

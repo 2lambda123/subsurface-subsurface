@@ -13,18 +13,17 @@
 #include "core/subsurface-string.h"
 #include <string>
 
-CylindersModel::CylindersModel(bool planner, QObject *parent) : CleanerTableModel(parent),
+CylindersModel::CylindersModel(bool planner, QObject *parent) :
+	//	enum {REMOVE, TYPE, SIZE, WORKINGPRESS, START, END, O2, HE, DEPTH, MOD, MND, USE, WORKINGPRESS_INT, SIZE_INT, SENSORS};
+	CleanerTableModel(QStringList { QString(), tr("Type"), tr("Size"), tr("Work press."), tr("Start press."), tr("End press."), tr("O₂%"), tr("He%"),
+		tr("Deco switch at"), tr("Bot. MOD"), tr("MND"), tr("Use"), QString(),
+		QString(), tr("Sensors") }, parent),
 	d(nullptr),
 	dcNr(-1),
 	inPlanner(planner),
 	numRows(0),
 	tempRow(-1)
 {
-	//	enum {REMOVE, TYPE, SIZE, WORKINGPRESS, START, END, O2, HE, DEPTH, MOD, MND, USE, WORKINGPRESS_INT, SIZE_INT, SENSORS};
-	setHeaderDataStrings(QStringList() << "" << tr("Type") << tr("Size") << tr("Work press.") << tr("Start press.") << tr("End press.") << tr("O₂%") << tr("He%")
-					   << tr("Deco switch at") << tr("Bot. MOD") << tr("MND") << tr("Use") << ""
-					   << "" << tr("Sensors"));
-
 	connect(&diveListNotifier, &DiveListNotifier::cylindersReset, this, &CylindersModel::cylindersReset);
 	connect(&diveListNotifier, &DiveListNotifier::cylinderAdded, this, &CylindersModel::cylinderAdded);
 	connect(&diveListNotifier, &DiveListNotifier::cylinderRemoved, this, &CylindersModel::cylinderRemoved);

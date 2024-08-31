@@ -3,10 +3,9 @@
 #include "core/divecomputer.h"
 #include "core/metrics.h"
 
-ExtraDataModel::ExtraDataModel(QObject *parent) : CleanerTableModel(parent)
+ExtraDataModel::ExtraDataModel(QObject *parent) :
+	CleanerTableModel(QStringList { tr("Key"), tr("Value") }, parent)
 {
-	//enum Column {KEY, VALUE};
-	setHeaderDataStrings(QStringList() << tr("Key") << tr("Value"));
 }
 
 void ExtraDataModel::clear()

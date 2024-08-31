@@ -32,7 +32,7 @@ int TankInfoModel::rowCount(const QModelIndex&) const
 	return (int)tank_info_table.size();
 }
 
-TankInfoModel::TankInfoModel(QObject *parent) : CleanerTableModel(parent)
+TankInfoModel::TankInfoModel(QObject *parent) :
+	CleanerTableModel(QStringList{ tr("Description"), tr("ml"), tr("bar") }, parent)
 {
-	setHeaderDataStrings(QStringList() << tr("Description") << tr("ml") << tr("bar"));
 }

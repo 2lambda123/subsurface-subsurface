@@ -20,15 +20,12 @@ const QPixmap &editIcon();
 class CleanerTableModel : public QAbstractTableModel {
 	Q_OBJECT
 public:
-	explicit CleanerTableModel(QObject *parent = 0);
-	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+	explicit CleanerTableModel(QStringList headers, QObject *parent = 0);
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
-protected:
-	void setHeaderDataStrings(const QStringList &headers);
 
 private:
 	QStringList headers;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 };
 
 #endif

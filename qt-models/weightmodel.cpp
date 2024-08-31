@@ -10,12 +10,11 @@
 #include "commands/command.h"
 #endif
 
-WeightModel::WeightModel(QObject *parent) : CleanerTableModel(parent),
+WeightModel::WeightModel(QObject *parent) :
+	CleanerTableModel(QStringList { QString(), tr("Type"), tr("Weight") }, parent),
 	d(nullptr),
 	tempRow(-1)
 {
-	//enum Column {REMOVE, TYPE, WEIGHT};
-	setHeaderDataStrings(QStringList() << tr("") << tr("Type") << tr("Weight"));
 	connect(&diveListNotifier, &DiveListNotifier::weightsystemsReset, this, &WeightModel::weightsystemsReset);
 	connect(&diveListNotifier, &DiveListNotifier::weightAdded, this, &WeightModel::weightAdded);
 	connect(&diveListNotifier, &DiveListNotifier::weightRemoved, this, &WeightModel::weightRemoved);
